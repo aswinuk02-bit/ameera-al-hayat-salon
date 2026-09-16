@@ -11,7 +11,8 @@
      CONFIG — edit these placeholders when real business details arrive
      --------------------------------------------------------------------- */
   const CONFIG = {
-    whatsappNumber: "971500000000", // digits only, country code, no + or spaces
+    whatsappNumber: "971529527752", // primary — digits only, used for Book Now / hero / FAB / WhatsApp icon
+    whatsappNumberSecondary: "971555965577", // shown as a second contact line, also click-to-WhatsApp
     whatsappDefaultMessage: {
       en: "Hi AMEERA Al Hayat! I'd like to book an appointment.",
       ar: "مرحبًا صالون الأميرة الحياة! أرغب في حجز موعد."
@@ -91,9 +92,13 @@
   /* ---------------------------------------------------------------------
      WhatsApp / booking links
      --------------------------------------------------------------------- */
-  function buildWhatsAppLink() {
+  function buildWhatsAppLink(number) {
     const msg = encodeURIComponent(CONFIG.whatsappDefaultMessage[currentLang]);
-    return `https://wa.me/${CONFIG.whatsappNumber}?text=${msg}`;
+    return `https://wa.me/${number || CONFIG.whatsappNumber}?text=${msg}`;
+  }
+
+  function formatPhone(number) {
+    return "+" + number.replace(/(\d{3})(\d{2})(\d{3})(\d{4})/, "$1 $2 $3 $4");
   }
 
   function updateBookingLinks() {
@@ -103,11 +108,15 @@
       if (el) el.setAttribute("href", link);
     });
 
-    const displayPhone = "+" + CONFIG.whatsappNumber.replace(/(\d{3})(\d{2})(\d{3})(\d{4})/, "$1 $2 $3 $4");
+    const numbers = [CONFIG.whatsappNumber, CONFIG.whatsappNumberSecondary];
+    const phoneLinesHtml = numbers
+      .map((n) => `<a href="${buildWhatsAppLink(n)}" target="_blank" rel="noopener" class="phone-link">${formatPhone(n)}</a>`)
+      .join("<br>");
+
     const phoneDisplay = $("#contactPhoneDisplay");
-    if (phoneDisplay) phoneDisplay.textContent = displayPhone;
+    if (phoneDisplay) phoneDisplay.innerHTML = phoneLinesHtml;
     const footerPhone = $("#footerPhone");
-    if (footerPhone) footerPhone.textContent = displayPhone;
+    if (footerPhone) footerPhone.innerHTML = phoneLinesHtml;
   }
 
   function renderSocialIcons() {
