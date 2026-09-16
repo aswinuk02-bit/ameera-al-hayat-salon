@@ -352,6 +352,42 @@ html[dir="rtl"] .about-media-accent { left: auto; right: -24px; }
 /* ---------- Services ---------- */
 .services { background: linear-gradient(180deg, var(--white), var(--pink-50)); }
 
+/* "Services & Price List" heading sits on its own full-width photo banner —
+   contained (not the whole, very tall, section) so the overlay gradient
+   reads the same well-tested way it does behind the Hero, instead of
+   fading to a low-contrast patch by the time it reaches the price list. */
+.services .section-heading {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: 56px 24px;
+  margin-inline: auto;
+  margin-bottom: 56px;
+  box-shadow: var(--shadow-md);
+  max-width: 100%;
+}
+.services .section-heading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--overlay-dir), var(--overlay-from), var(--overlay-to)),
+    url('../assets/images/optimized/hair-saloon-1.jpg');
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+@media (max-width: 768px) {
+  .services .section-heading::before { background-attachment: scroll; }
+  .services .section-heading { padding: 40px 20px; }
+}
+.services .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+
 .services-search {
   position: relative;
   max-width: 480px;
