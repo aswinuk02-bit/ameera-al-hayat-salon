@@ -29,10 +29,18 @@
 
   --header-h: 84px;
 
-  /* Directional overlay gradient for photo backgrounds — mirrors in RTL */
+  /* Directional overlay gradient for photo backgrounds — mirrors in RTL.
+     Used where text sits directly on the photo (Hero, section-heading
+     banners) and needs strong, guaranteed contrast. */
   --overlay-dir: to bottom right;
   --overlay-from: rgba(194, 24, 91, 0.75);
   --overlay-to: rgba(248, 224, 231, 0.85);
+
+  /* Lighter wash for photo backgrounds that only ever peek through behind
+     opaque cards (the Services category panels) — a light brand tint
+     instead of a heavy tint that obscures the photo. */
+  --overlay-light-from: rgba(194, 24, 91, 0.32);
+  --overlay-light-to: rgba(248, 224, 231, 0.38);
 }
 
 html[dir="rtl"] {
@@ -473,12 +481,12 @@ html[dir="rtl"] .search-icon { left: auto; right: 18px; }
   background-attachment: fixed;
 }
 .services-panel[data-cat-panel="nails"]::before {
-  background-image: linear-gradient(var(--overlay-dir), var(--overlay-from), var(--overlay-to)),
+  background-image: linear-gradient(var(--overlay-dir), var(--overlay-light-from), var(--overlay-light-to)),
     url('../assets/images/optimized/nail-salon-1.jpg');
 }
 .services-panel[data-cat-panel="massage"]::before,
 .services-panel[data-cat-panel="moroccan-bath"]::before {
-  background-image: linear-gradient(var(--overlay-dir), var(--overlay-from), var(--overlay-to)),
+  background-image: linear-gradient(var(--overlay-dir), var(--overlay-light-from), var(--overlay-light-to)),
     url('../assets/images/optimized/massage-1.jpg');
 }
 .services-panel[data-cat-panel="nails"] > *,
